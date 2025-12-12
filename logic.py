@@ -47,15 +47,16 @@ class Pokemon:
                     Сила: {self.power}"""
         
         #Метод для кормления покемонов
-        def feed(self, feed_interval = 20, hp_increase = 10 ):
-            current_time = datetime.now()  
-            delta_time = timedelta(seconds=feed_interval)  
-            if (current_time - self.last_feed_time) > delta_time:
-                self.hp += hp_increase
-                self.last_feed_time = current_time
-                return f"Здоровье покемона увеличено. Текущее здоровье: {self.hp}"
-            else:
-                return f"Следующее время кормления покемона: {current_time+delta_time}"
+        def feed(self, feed_interval=20, hp_increase=10):
+                current_time = datetime.now()
+                next_feed_time = self.last_feed_time + timedelta(seconds=feed_interval)
+                if current_time >= next_feed_time:
+                    self.hp += hp_increase
+                    self.last_feed_time = current_time
+                    return f"Покемон покормлен! Здоровье увеличено. Текущее здоровье: {self.hp}"
+                else:
+                    time_left = next_feed_time - current_time
+                    return f"Рано кормить! Следующее кормление через: {time_left.seconds} секунд"
 
         # Метод класса для получения картинки покемона
         def show_img(self):
@@ -102,6 +103,10 @@ print(fighter.info())
 print("#"*10)
 print(wizard.attack(fighter))
 print(fighter.attack(wizard))
+
+
+
+
 
 
 
